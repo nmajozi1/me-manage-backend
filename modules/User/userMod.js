@@ -34,3 +34,12 @@ exports.login = (userData) => {
     })
 
 }
+
+exports.deleteUser = (userData) => {
+
+    return new Promise((resolve, rejects) => {
+
+        userDBAccess.deleteUser(userData).then(response => { return resolve(response) }).catch(error => { return rejects(error)});
+    })
+
+}

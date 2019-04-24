@@ -31,6 +31,10 @@ router.get('/getUsers', (req, res) => {
 
 router.post('/createUser', (req, res) => {
 
+    const userData = req.body;
+
+    console.log('User Data: ', userData);
+
     user.CreateUser(userData).then(addedUser => {
 
         res.status(200).send({
@@ -54,9 +58,14 @@ router.post('/login', (req, res) => {
 
     const userData = req.body;
 
-    console.log('USER DATA: ', userData);
-
     user.login(userData).then(response => res.status(200).send(response)).catch(error => {res.status(400).send(error)});
+});
+
+router.post('/deleteUser', (req, res) => {
+
+    const userData = req.body;
+
+    user.deleteUser(userData).then(response => res.status(200).send(response)).catch(error => {res.status(400).send(error)});
 });
 
 module.exports = router;

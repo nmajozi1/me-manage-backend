@@ -87,3 +87,30 @@ exports.login = (userData) => {
     });
 
 }
+
+exports.deleteUser = (userData) => {
+
+    return new Promise((resolve, rejects) => {
+
+        User.remove({usernae: userdata.username}, (error, docs) => {
+
+            if(!error && docs) {
+
+                return resolve({
+                    success: true,
+                    message: 'User removed successfully',
+                    data: docs
+                });
+
+            } else {
+
+                return rejects({
+                    success: false,
+                    message: 'Failed to remove the user',
+                    data: error
+                })
+
+            }
+        });
+    });
+}

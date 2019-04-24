@@ -35,6 +35,102 @@ exports.GetBudgetList = () => {
 
 }
 
+exports.updateBudget = (budgetData) => {
+
+    return new Promise((resolve, rejects) => {
+
+        Budget.findOne({item: budgetData.item}, (error, docs) => {
+
+            if(!error && docs) {
+
+                docs.amount = budgetData.amount;
+                docs.payment = budgetData.payment;
+
+                docs.save((saveErr, saveDocs) => {
+                    
+                    if(!saveErr && saveDocs) {
+
+                        return resolve({
+                            success: true,
+                            message: "Budget item updated successfully",
+                            data: saveDocs
+                        })
+
+                    } else {
+
+                        return rejects({
+                            success: false,
+                            message: "Failed to update the budget item",
+                            data: saveErr
+                        });
+
+                    }
+
+                });
+            } else {
+
+                return rejects({
+                    success: false,
+                    message: "Error updating budget item, please contact support."
+                });
+
+            }
+
+        });
+
+    });
+
+}
+
+exports.PaymentUpdate = (budgetData) => {
+
+    if(budgetData.payment === false) { budgetData.payment = true; } else { budgetData.payment = false; };
+
+    return new Promise((resolve, rejects) => {
+
+        Budget.findOne({item: budgetData.item}, (error, docs) => {
+
+            if(!error && docs) {
+
+                docs.payment = budgetData.payment;
+
+                docs.save((saveErr, saveDocs) => {
+
+                    if(!saveErr && saveDocs) {
+
+                        return resolve({
+                            success: true,
+                            message: "Budget Payment saved successfully",
+                            data: saveDocs
+                        })
+
+                    } else {
+
+                        return rejects({
+                            success: false,
+                            message: "Payment update failed.",
+                            data: saveErr
+                        })
+
+                    }
+
+                })
+
+            } else {
+
+                return rejects({
+                    success: false,
+                    message: "Could not find item",
+                    data: "Item not found"
+                });
+            }
+
+        });
+
+    });
+
+} 
+
 exports.CreateBudget = (budgetData) => {
 
     return new Promise((resolve, rejects) => {
@@ -53,7 +149,7 @@ exports.CreateBudget = (budgetData) => {
                 let budget = new Budget({
                     item:       budgetData.item,
                     amount:     budgetData.amount,
-                    payment:    budgetData.payment
+                    payment:    false
                 })
 
                 budget.save((saveErr, saveDocs) => {
@@ -82,4 +178,31 @@ exports.CreateBudget = (budgetData) => {
 
     })
 
+}
+
+exports.delete = (budgetData) => {
+
+    return new Promise((resolve, reject) => {
+
+        Budget.remove({item: budgetData.item}, (error, docs) => {
+
+            if(!error && docs) {
+
+                return resolve({
+                    success: true,
+                    message: 'Budget Item has been removed.',
+                    data: docs
+                });
+
+            } else {
+
+                return reject({
+                    success: false,
+                    message: 'Budget item does not exist',
+                    data: error
+                });
+
+            }
+        });
+    });
 }
