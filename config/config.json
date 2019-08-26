@@ -1,3 +1,7 @@
 {
-    "port": "9900"
+    "port": "9900",
+    "mongo": {
+        "local": "mongodb://localhost:27017/budget",
+        "atlass": "mongodb+srv://ntokozo:I81u812!@cluster0-xlvpn.mongodb.net/test?retryWrites=true&w=majority"
+    }
 }

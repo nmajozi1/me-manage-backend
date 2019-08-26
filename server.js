@@ -9,6 +9,7 @@ import bodyParser   from 'body-parser';
 import routes       from './routes/routes';
 import budgetRoute  from './routes/budgetRoute';
 import goalRoutes   from './routes/setGoalRoute';
+import dashboard    from './routes/dashboard.route';
 
 const logger = log4js.getLogger('SERVER')
 const app    = express();
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(routes);
 app.use(budgetRoute);
 app.use(goalRoutes);
+app.use(dashboard);
 
 app.listen(port.port, () => {
     logger.debug('LISTENING ON PORT: ', port.port);

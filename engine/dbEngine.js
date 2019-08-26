@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import config from '../config/config.json';
 
 exports.CreateConnection = () => {
     return new Promise((resolve, reject) => {
-        mongoose.connect("mongodb://localhost:27017/budget", { useNewUrlParser: true }, (error, data) => {
+        mongoose.connect(config.mongo.local, { useNewUrlParser: true }, (error, data) => {
             if(error) {
                 return reject({code:"01", "message":"Failed to connect", data: error});
             } else {

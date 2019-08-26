@@ -114,3 +114,39 @@ exports.deleteUser = (userData) => {
         });
     });
 }
+
+exports.updateUser = (userData) => {
+
+    console.log('Do we make it here? DB ACCESS: ', userData);
+
+    return new Promise((resolve, reject) => {
+
+        User.findOne({username: userData.username}, (error, docs) => {
+
+            if(!error && docs) {
+
+                docs.name = userData.name;
+                docs.surname = userData.surname;
+                docs.email = userData.email;
+                docs.username = userData.username;
+                docs.password = userData.password;
+                docs.role = userData.role;
+
+                docs.save({}, (saveError, saveDocs) => {
+
+                    if (!saveError && saveDocs)
+                        return resolve({success:true, message: 'User has been updated successfully', data: saveDocs});
+
+                    return reject({success: false, message: 'Failed to update the user', data: saveError});
+
+                });
+
+            } else {
+
+                return reject({success: false, message: 'User ' + userData.email + ' not found, please register the user first', data: error});
+
+            }
+
+        });
+    })
+}
